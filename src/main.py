@@ -8,9 +8,9 @@ from bs4 import BeautifulSoup
 from tqdm import tqdm
 
 from configs import configure_argument_parser, configure_logging
-from constants import BASE_DIR, MAIN_DOC_URL, PEP_URL, INFO, EXPECTED_STATUS
+from constants import BASE_DIR, EXPECTED_STATUS, INFO, MAIN_DOC_URL, PEP_URL
 from outputs import control_output
-from utils import get_response, find_tag
+from utils import find_tag, get_response
 
 
 def whats_new(session):
