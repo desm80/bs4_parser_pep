@@ -2,7 +2,6 @@ import logging
 
 from requests import RequestException
 
-# Перехват ошибки RequestException.
 from exceptions import ParserFindTagException
 
 
