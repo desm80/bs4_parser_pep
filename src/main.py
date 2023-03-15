@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 from tqdm import tqdm
 
 from configs import configure_argument_parser, configure_logging
-from constants import BASE_DIR, MAIN_DOC_URL
+from constants import BASE_DIR, MAIN_DOC_URL, PEP_URL
 from outputs import control_output
 from utils import get_response, find_tag
 
@@ -169,7 +169,21 @@ def download(session):
 
 
 def pep(session):
-    pass
+    session = requests_cache.CachedSession()
+    response = session.get(PEP_URL)
+    response.encoding = 'utf-8'
+    soup = BeautifulSoup(response.text, features='lxml')
+    table = soup.find('section', attrs={'id': 'numerical-index'})
+    peps = table.find_all('tr')
+    result = []
+    for item in peps[1::]:
+        status = item.find('abbr').text
+        link = item.find('a', attrs={'class': 'pep reference internal'})[
+            'href']
+        pep_num = item.find('a',
+                           attrs={'class': 'pep reference internal'}).text
+        result.append([pep_num, link, status])
+        print(pep_num, link, status)
 
 
 MODE_TO_FUNCTION = {
