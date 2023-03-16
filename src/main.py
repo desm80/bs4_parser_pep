@@ -14,6 +14,7 @@ from utils import find_tag, get_response
 
 
 def whats_new(session):
+    """Парсинг статей о новинках в разных версиях Питона."""
     whats_new_url = urljoin(MAIN_DOC_URL, 'whatsnew/')
     response = get_response(session, whats_new_url)
     if response is None:
@@ -43,12 +44,13 @@ def whats_new(session):
 
 
 def latest_versions(session):
+    """Парсинг списка документации Питона по версиям с указанием их статуса."""
     response = get_response(session, MAIN_DOC_URL)
     if response is None:
         return
     soup = BeautifulSoup(response.text, features='lxml')
     sidebar = find_tag(soup, 'div', attrs={'class': 'sphinxsidebarwrapper'})
-    ul_tags = find_tag(sidebar, 'ul')
+    ul_tags = sidebar.find_all('ul')
     for ul in ul_tags:
         if 'All versions' in ul.text:
             a_tags = ul.find_all('a')
@@ -74,6 +76,7 @@ def latest_versions(session):
 
 
 def download(session):
+    """Скачивание архива документации актуальной версии Питона."""
     downloads_url = urljoin(MAIN_DOC_URL, 'download.html')
     response = get_response(session, downloads_url)
     if response is None:
@@ -96,12 +99,13 @@ def download(session):
 
 
 def pep(session):
+    """Парсинг статистики по количеству PEP и их статусам."""
     response = get_response(session, PEP_URL)
     soup = BeautifulSoup(response.text, features='lxml')
     table = soup.find('section', attrs={'id': 'numerical-index'})
     peps = table.find_all('tr')
     result = []
-    for item in peps[1::]:
+    for item in tqdm(peps[1::]):
         status = item.find('abbr').text[1:]
         link = item.find(
             'a', attrs={'class': 'pep reference internal'}

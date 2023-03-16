@@ -4,10 +4,10 @@ MAIN_DOC_URL = 'https://docs.python.org/3/'
 BASE_DIR = Path(__file__).parent
 DATETIME_FORMAT = '%Y-%m-%d_%H-%M-%S'
 PEP_URL = 'https://peps.python.org/'
-INFO = ('Несовпадающие статусы: '
-        '{} '
-        'Статус в карточке: {} '
-        'Ожидаемые статусы: {} '
+INFO = ('Несовпадающие статусы:\n'
+        '{}\n'
+        'Статус в карточке: {}\n'
+        'Ожидаемые статусы: {}\n'
         )
 EXPECTED_STATUS = {
     'A': ('Active', 'Accepted'),
