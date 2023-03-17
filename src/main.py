@@ -115,14 +115,14 @@ def pep(session):
         soup = BeautifulSoup(response.text, features='lxml')
         pep_status = soup.find('abbr').text
         result.append(pep_status)
-        if pep_status not in EXPECTED_STATUS[status]:
+        expected_status = EXPECTED_STATUS.get(status, [None])
+        if pep_status not in expected_status:
             logging.info(
-                INFO.format(pep_url, pep_status, [*EXPECTED_STATUS[status]])
+                INFO.format(pep_url, pep_status, [*expected_status])
             )
-    for_output = [['Статус', 'Количество']]
-    for key, value in dict(Counter(result)).items():
-        for_output.append([key, value])
-    for_output.append(['Total', len(result)])
+    for_output = [('Статус', 'Количество')]
+    for_output.extend(dict(Counter(result)).items())
+    for_output.append(('Total', len(result)))
     return for_output
 
 
