@@ -58,3 +58,5 @@ cd src
 python main.py pep -o pretty 
 ```
 
+### Автор:
+Смирнов Денис
